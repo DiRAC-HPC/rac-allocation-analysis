@@ -18,10 +18,17 @@ total_df = pd.read_csv(infile, quotechar="'", quoting=2)
 print(total_df)
 
 # Write out the quarterly allocations
-print("'ProjectID','RACID','Quarter','Year','Resource','Allocation'")
+
+csvfile = open("rac1.csv", 'w')
+
+csvfile.write("'ProjectID','RACID','Quarter','Year','Resource','Allocation'\n")
 for index, row in total_df.iterrows():
     year = row['Start Year'] + 0.25
     for i in range(int(row['Quarters'])):
-        print("'{:}','{:}','{:}',{:d},{:},{:.3f}".format(row["ProjectID"], row["RACID"], next(quarters_pool), int(year), row['Resource'], float(row['Allocation'])/row['Quarters']))
+        csvfile.write("'{:}','{:}','{:}',{:d},{:},{:.3f}\n".format(row["ProjectID"], row["RACID"], next(quarters_pool), int(year), row['Resource'], float(row['Allocation'])/row['Quarters']))
         year = year + 0.25
+
+csvfile.close()
+
+
 
